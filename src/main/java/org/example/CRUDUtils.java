@@ -49,4 +49,48 @@ public class CRUDUtils {
         return products;
 
     }
+
+    public static void updateProductPrice(String query, int newPrice, int productId) {
+        try (Connection connection = DBUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, newPrice);
+            preparedStatement.setInt(2, productId);
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Цена товара успешно обновлена.");
+            } else {
+                System.out.println("Товар с указанным идентификатором не найден.");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+
+        }
+    }
+
+    public static void updateProductQuantity(String query, int productId, int newQuantity) {
+        try (Connection connection = DBUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, newQuantity);
+            preparedStatement.setInt(2, productId);
+            preparedStatement.executeUpdate();
+            System.out.println("Количество товара успешно обновлено в базе данных.");
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+    public static void deleteProduct(String query, int productId) {
+        try (Connection connection = DBUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, productId);
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Товар успешно удален из базы данных.");
+            } else {
+                System.out.println("Товар с указанным ID не найден в базе данных.");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
 }

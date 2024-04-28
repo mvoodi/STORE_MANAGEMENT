@@ -32,8 +32,8 @@ public class Accountant {
     }
 
     public static void showAllProducts (){
-        String query = "SELECT * FROM products";
-        CRUDUtils.getProductData(query);
+
+        CRUDUtils.getProductData();
     }
 
     public static void showBudget(){

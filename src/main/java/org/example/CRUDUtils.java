@@ -9,7 +9,8 @@ import java.util.List;
 
 public class CRUDUtils {
 
-    public static void getProductData(String query) {
+    public static void getProductData() {
+        String query = "SELECT * FROM products";
         try (Connection connection = DBUtils.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(query);
              ResultSet resultSet = preparedStatement.executeQuery()) {
@@ -35,9 +36,9 @@ public class CRUDUtils {
     }
 
 
-    public static List<Product> saveProductData(String INSERT_PRODUCT, String name, int price, int quantity_in_stock, int quantity_sold){
+    public static List<Product> saveProductData(String name, int price, int quantity_in_stock, int quantity_sold){
         List<Product> products = new ArrayList<>();
-
+        String INSERT_PRODUCT = "INSERT INTO products (name, price, quantity_in_stock, quantity_sold) VALUES (?, ?, ?, ?)";
         try(Connection connection = DBUtils.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(INSERT_PRODUCT)){
             preparedStatement.setString(1, name);
@@ -53,9 +54,10 @@ public class CRUDUtils {
 
     }
 
-    public static void updateProductPrice(String query, int newPrice, int productId) {
+    public static void updateProductPrice(int newPrice, int productId) {
+        String updatePrice = "UPDATE products SET price = ? WHERE id = ?";
         try (Connection connection = DBUtils.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(updatePrice)) {
             preparedStatement.setInt(1, newPrice);
             preparedStatement.setInt(2, productId);
             int rowsAffected = preparedStatement.executeUpdate();
@@ -82,9 +84,10 @@ public class CRUDUtils {
         }
     }
 
-    public static void deleteProduct(String query, int productId) {
+    public static void deleteProduct(int productId) {
+        String deleteQuery = "DELETE FROM products WHERE id = ?";
         try (Connection connection = DBUtils.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(deleteQuery)) {
             preparedStatement.setInt(1, productId);
             int rowsAffected = preparedStatement.executeUpdate();
             if (rowsAffected > 0) {

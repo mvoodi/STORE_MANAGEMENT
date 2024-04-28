@@ -24,18 +24,16 @@ public class Director extends Accountant{
         CRUDUtils.deleteEmployee(deleteQuery, employeeID);
     }
 
-    public static void addEmployee(Scanner scanner){
+    public static void addEmployee(Scanner scanner, Scanner intScanner){
         System.out.println("Введите имя нового сотрудника:");
-
         String name = scanner.nextLine();
         System.out.println("Введите фамилию нового сотрудника:");
         String surname = scanner.nextLine();
         System.out.println("Введите должность нового сотрудника:");
         String post = scanner.nextLine();
         System.out.println("Введите зарплату нового сотрудника:");
-        int salary = scanner.nextInt();
+        int salary = intScanner.nextInt();
 
-        scanner.nextInt();
 
 
         String INSERT_EMPLOYEE = "INSERT INTO employee (name, surname, post, salary) VALUES (?, ?, ?, ?)";

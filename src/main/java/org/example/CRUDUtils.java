@@ -9,8 +9,6 @@ import java.util.List;
 
 public class CRUDUtils {
 
-    String INSERT_PRODUCT = "INSERT INTO products (name, price, quantity) VALUES (?, ?, ?)";
-
     public static List<Product> getProductData(String query){
         List<Product> products = new ArrayList<>();
 
@@ -93,4 +91,101 @@ public class CRUDUtils {
             throwables.printStackTrace();
         }
     }
+
+
+    public static List<Employee> getEmployeeData(String query){
+        List<Employee> employees = new ArrayList<>();
+
+        try(Connection connection = DBUtils.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(query)){
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while(rs.next()){
+                int id = rs.getInt("id");
+                String name = rs.getString("name");
+                String surname = rs.getString("surname");
+                String post = rs.getString("post");
+
+                int salary = rs.getInt("salary");
+
+                employees.add(new Employee(id, name, surname, post, salary));
+            }
+        }catch(SQLException throwables){
+            throwables.printStackTrace();
+        }
+        return employees;
+
+    }
+
+    public static List<Employee> saveEmployeeData(String INSERT_EMPLOYEE, String name, String surname, String post, int salary){
+        List<Employee> employees = new ArrayList<>();
+
+        try(Connection connection = DBUtils.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(INSERT_EMPLOYEE)){
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, surname);
+            preparedStatement.setString(3, post);
+            preparedStatement.setInt(4, salary);
+            preparedStatement.executeUpdate();
+            System.out.println("Данные успешно добавлены в базу данных.");
+        }catch(SQLException throwables){
+            throwables.printStackTrace();
+        }
+        return employees;
+
+    }
+
+    public static void updateEmployeesSalary(String query, int newSalary, int employeeId) {
+        try (Connection connection = DBUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, newSalary);
+            preparedStatement.setInt(2, employeeId);
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Зарплата работника успешно обновлена.");
+            } else {
+                System.out.println("Работник с указанным ID не найден.");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+
+        }
+    }
+
+
+    public static void updateEmployeesPost(String query, String newPost, int employeeId) {
+        try (Connection connection = DBUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setString(1, newPost);
+            preparedStatement.setInt(2, employeeId);
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Должность работника успешно обновлена.");
+            } else {
+                System.out.println("Работник с указанным ID не найден.");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+
+        }
+    }
+
+    public static void deleteEmployee(String query, int employeeId) {
+        try (Connection connection = DBUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setInt(1, employeeId);
+            int rowsAffected = preparedStatement.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Работник успешно удален из базы данных.");
+            } else {
+                System.out.println("Работник с указанным ID не найден в базе данных.");
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+    }
+
+
+
+
 }

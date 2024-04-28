@@ -4,32 +4,36 @@ public class Product {
     private int id;
     private String name;
     private int price;
-    private int quantity;
+    private int quantity_in_stock;
+
+    private int quantity_sold;
 
 
     @Override
     public String toString() {
-        return "'\n' + Product{" +
+        return "Product{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
-                ", quantity=" + quantity +
+                ", quantity_in_stock=" + quantity_in_stock +
+                ", quantity_sold=" + quantity_sold +
                 '}';
     }
 
-    public Product() {
+    public Product(int id, String name, int price, int quantity_in_stock, int quantity_sold) {
     }
 
     public Product(int id, String name, int price, int quantity){
         this.id = id;
         this.name = name;
         this.price = price;
-        this.quantity = quantity;
+        this.quantity_in_stock = quantity_in_stock;
     }
 
     public int getId() {
         return id;
     }
+
 
     public void setId(int id) {
         this.id = id;
@@ -51,11 +55,19 @@ public class Product {
         this.price = price;
     }
 
-    public int getQuantity() {
-        return quantity;
+    public int getQuantity_in_stock() {
+        return quantity_in_stock;
     }
 
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
+    public void setQuantity_in_stock(int quantity_in_stock) {
+        this.quantity_in_stock = quantity_in_stock;
+    }
+
+    public int getQuantity_sold() {
+        return quantity_sold;
+    }
+
+    public void setQuantity_sold(int quantity_sold) {
+        this.quantity_sold = quantity_sold;
     }
 }

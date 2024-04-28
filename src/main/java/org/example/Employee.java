@@ -9,14 +9,13 @@ public class Employee {
 
     @Override
     public String toString() {
-        String format = "| %-4s | %-15s | %-15s | %-15s | %-10s |%n";
-        StringBuilder sb = new StringBuilder();
-        sb.append("+------+-----------------+-----------------+-----------------+------------+%n");
-        sb.append("| ID   | Name            | Surname         | Post            | Salary     |%n");
-        sb.append("+------+-----------------+-----------------+-----------------+------------+%n");
-        sb.append(String.format(format, id, name, surname, post, salary));
-        sb.append("+------+-----------------+-----------------+-----------------+------------+%n");
-        return sb.toString();
+        return "Employee{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", post='" + post + '\'' +
+                ", salary=" + salary +
+                '}';
     }
 
     public  Employee(){

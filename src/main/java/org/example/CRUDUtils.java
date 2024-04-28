@@ -9,28 +9,31 @@ import java.util.List;
 
 public class CRUDUtils {
 
-    public static List<Product> getProductData(String query){
-        List<Product> products = new ArrayList<>();
+    public static void getProductData(String query) {
+        try (Connection connection = DBUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
 
-        try(Connection connection = DBUtils.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(query)){
-            ResultSet rs = preparedStatement.executeQuery();
+            System.out.println("-------------------------------------------------------------------------------------");
+            System.out.printf("| %-4s | %-20s | %-10s | %-20s | %-16s |\n", "ID", "Name", "Price", "Quantity in Stock", "Quantity Sold");
+            System.out.println("-------------------------------------------------------------------------------------");
 
-            while(rs.next()){
-                int id = rs.getInt("id");
-                String name = rs.getString("name");
-                int price = rs.getInt("price");
-                int quantity_in_stock = rs.getInt("quantity_in_stock");
-                int quantity_sold = rs.getInt("quantity_sold");
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                double price = resultSet.getDouble("price");
+                int quantityInStock = resultSet.getInt("quantity_in_stock");
+                int quantitySold = resultSet.getInt("quantity_sold");
 
-                products.add(new Product(id, name, price, quantity_in_stock, quantity_sold));
+                System.out.printf("| %-4d | %-20s | %-10.2s | %-20d | %-16d |\n", id, name, price, quantityInStock, quantitySold);
             }
-        }catch(SQLException throwables){
+
+            System.out.println("-------------------------------------------------------------------------------------");
+        } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-        return products;
-
     }
+
 
     public static List<Product> saveProductData(String INSERT_PRODUCT, String name, int price, int quantity_in_stock, int quantity_sold){
         List<Product> products = new ArrayList<>();
@@ -207,9 +210,10 @@ public class CRUDUtils {
 
     }
 
-    public static void updateEmployeesSalary(String query, int newSalary, int employeeId) {
+    public static void updateEmployeesSalary(int employeeId, int newSalary ) {
+        String updateSalary = "UPDATE employee SET salary = ? WHERE id = ?";
         try (Connection connection = DBUtils.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+             PreparedStatement preparedStatement = connection.prepareStatement(updateSalary)) {
             preparedStatement.setInt(1, newSalary);
             preparedStatement.setInt(2, employeeId);
             int rowsAffected = preparedStatement.executeUpdate();
@@ -255,6 +259,21 @@ public class CRUDUtils {
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+    }
+
+    public static double getTotalSalaryValue() {
+        double totalSalary = 0.0;
+        String SELECT_TOTAL_SOLD = "SELECT SUM(salary) AS total_salary FROM employee";
+        try (Connection connection = DBUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_TOTAL_SOLD);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
+            if (resultSet.next()) {
+                totalSalary = resultSet.getDouble("total_salary");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return totalSalary;
     }
 
 

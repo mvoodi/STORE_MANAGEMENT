@@ -2,17 +2,19 @@ package org.example;
 
 import java.util.Scanner;
 
-public class Director{
+public class Director extends Accountant{
 
-    private final Scanner scanner;
+
     public Director(Scanner scanner) {
-        this.scanner = scanner;
+        super(scanner);
     }
+
     public static void displayDirectorMenu() {
         System.out.println("1 | Найм сотрудника.");
         System.out.println("2 | Увольнение сотрудника.");
         System.out.println("3 | Показать бюджет.");
         System.out.println("4 | Показать список сотрудников.");
+        System.out.println("5 | Завершить работу.");
     }
 
     public static void removeEmployee(Scanner scanner) {
@@ -40,17 +42,5 @@ public class Director{
         CRUDUtils.saveEmployeeData(INSERT_EMPLOYEE, name, surname, post, salary);
     }
 
-    public static void showBudget(){
-        String VALUE_IN_STOCK = "SELECT SUM(quantity_in_stock * price) AS total FROM products";
-        String VALUE_SOLD = "SELECT SUM(quantity_sold * price) AS total FROM products";
-        System.out.println("The total price of the goods in stock " + CRUDUtils.getTotalValueOfProducts(VALUE_IN_STOCK) + " som.");
-        System.out.println("The total cost of the goods sold " + CRUDUtils.getTotalValueOfProducts(VALUE_SOLD) + " som.");
-        int sum = CRUDUtils.getTotalValueOfProducts(VALUE_IN_STOCK) + CRUDUtils.getTotalValueOfProducts(VALUE_SOLD);
-        System.out.println("The total cost in general " + sum + " som.");
-    }
 
-    public static void showAllEmployee (){
-        String query = "SELECT * FROM employee";
-        CRUDUtils.getEmployeeData(query);
-    }
 }

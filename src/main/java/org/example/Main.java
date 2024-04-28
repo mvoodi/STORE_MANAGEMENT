@@ -15,6 +15,9 @@ public class Main {
 
         String sellerLogin = "seller";
         String sellerPassword = "seller123";
+
+        String accountantLogin = "accountant";
+        String accountantPassword = "123456";
         boolean working = true;
 
 
@@ -60,6 +63,33 @@ public class Main {
                 }
                 else if(sellerChoice == 2){
                     System.out.println("The work is completed.");
+                    working = false;
+                    break;
+                }
+                else{
+                    System.out.println("Неверная команда. Введите еще раз.");
+                }
+            }
+        }
+        else if(login.equals(accountantLogin) && password.equals(accountantPassword)){
+            while(working){
+                Accountant.displayAccountantMenu();
+                int accountantChoice = scanner.nextInt();
+
+                if(accountantChoice == 1){
+                    Accountant.showBudget();
+                }
+                else if(accountantChoice == 2){
+                    Accountant.showAllEmployee();
+                }
+                else if(accountantChoice == 3){
+                    Accountant.showAllProducts();
+                }
+                else if(accountantChoice == 4){
+                    Accountant.changeSalary(scanner);
+                }
+                else if(accountantChoice == 5){
+                    System.out.println("Работа завершена.");
                     working = false;
                     break;
                 }

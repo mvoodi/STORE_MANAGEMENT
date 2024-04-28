@@ -12,6 +12,9 @@ public class Main {
         Scanner directorScanner = new Scanner(System.in);
         String directorLogin = "director";
         String directorPassword = "director123";
+
+        String sellerLogin = "seller";
+        String sellerPassword = "seller123";
         boolean working = true;
 
 
@@ -46,8 +49,24 @@ public class Main {
                     System.out.println("Неверная команда. Введите еще раз.");
                 }
             }
+        }
+        else if(login.equals(sellerLogin) && password.equals(sellerPassword)){
+            while(working){
+                Seller.displaySellerMenu();
+                int sellerChoice = scanner.nextInt();
 
-
+                if(sellerChoice == 1){
+                    Seller.sellProduct(scanner);
+                }
+                else if(sellerChoice == 2){
+                    System.out.println("The work is completed.");
+                    working = false;
+                    break;
+                }
+                else{
+                    System.out.println("Неверная команда. Введите еще раз.");
+                }
+            }
         }
 
 

@@ -6,10 +6,21 @@ public class SoldProduct {
     private String name;
     private double price;
 
-    public SoldProduct(int id, String name, double price) {
+    private int quantity;
+
+    public SoldProduct(int id, String name, double price, int quantity) {
         this.id = id;
         this.name = name;
         this.price = price;
+        this.quantity = quantity;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public int getId() {

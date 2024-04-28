@@ -93,8 +93,7 @@ public class CRUDUtils {
             throwables.printStackTrace();
         }
     }
-    private void updateProductQuantity(int productId, int quantitySold) {
-        String UPDATE_QUANTITY = "UPDATE products SET quantity_in_stock = quantity_in_stock - ?, quantity_sold = quantity_sold + ? WHERE id = ?";
+    public static void sellProduct(String UPDATE_QUANTITY, int productId, int quantitySold) {
         try (Connection connection = DBUtils.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_QUANTITY)) {
             preparedStatement.setInt(1, quantitySold);
@@ -104,6 +103,44 @@ public class CRUDUtils {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    public static double getProductPrice(int productId) {
+        double productPrice = 0.0;
+        String SELECT_PRICE = "SELECT price FROM products WHERE id = ?";
+        try (Connection connection = DBUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PRICE)) {
+            preparedStatement.setInt(1, productId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    productPrice = resultSet.getDouble("price");
+                } else {
+                    System.out.println("Товар с указанным ID не найден в базе данных.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return productPrice;
+    }
+
+
+    public static String getProductName(int productId) {
+        String productName = null;
+        String SELECT_NAME = "SELECT name FROM products WHERE id = ?";
+        try (Connection connection = DBUtils.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_NAME)) {
+            preparedStatement.setInt(1, productId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    productName = resultSet.getString("name");
+                } else {
+                    System.out.println("Товар с указанным ID не найден в базе данных.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return productName;
     }
 
 

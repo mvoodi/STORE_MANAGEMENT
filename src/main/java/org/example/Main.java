@@ -1,9 +1,4 @@
 package org.example;
-
-import org.w3c.dom.ls.LSOutput;
-
-import java.sql.SQLOutput;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -110,7 +105,7 @@ public class Main {
                 } else if (warehouseManagerChoice == 4) {
                     WarehouseManager.addNewProduct(scanner, intScanner);
                 } else if (warehouseManagerChoice == 5) {
-                    WarehouseManager.removeProduct(scanner);
+                    WarehouseManager.removeProduct(intScanner);
                 } else if (warehouseManagerChoice == 6) {
                     System.out.println("Работа завершена.");
                     working = false;

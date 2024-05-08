@@ -39,10 +39,10 @@ public class Accountant {
     public static void showBudget(){
         String VALUE_IN_STOCK = "SELECT SUM(quantity_in_stock * price) AS total FROM products";
         String VALUE_SOLD = "SELECT SUM(quantity_sold * price) AS total FROM products";
-        System.out.println("The total price of the products in stock " + CRUDUtils.getTotalValueOfProducts(VALUE_IN_STOCK) + " som.");
-        System.out.println("The total cost of the products sold " + CRUDUtils.getTotalValueOfProducts(VALUE_SOLD) + " som.");
+        System.out.println("Общая стоимость продуктов на складе " + CRUDUtils.getTotalValueOfProducts(VALUE_IN_STOCK) + " сом.");
+        System.out.println("Общая стоимость проданных продуктов " + CRUDUtils.getTotalValueOfProducts(VALUE_SOLD) + " сом.");
         int sum = CRUDUtils.getTotalValueOfProducts(VALUE_IN_STOCK) + CRUDUtils.getTotalValueOfProducts(VALUE_SOLD);
-        System.out.println("The total cost in general " + sum + " som.");
-        System.out.println("The total price of all salaries " + CRUDUtils.getTotalSalaryValue() + " som");
+        System.out.println("Общая стоимость в целом " + sum + " сом.");
+        System.out.println("Общая стоимость всех зарплат " + CRUDUtils.getTotalSalaryValue() + " сом.");
     }
 }
